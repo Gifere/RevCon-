@@ -25,4 +25,8 @@ p {
 
 .card p:last-child {
 	margin-bottom: 0;
+
+}
+button.md\:hidden {
+    display: none !important;
 }
