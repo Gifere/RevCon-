@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVCON Constructions | Επαγγελματικές Ανακαινίσεις & Κατασκευές</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#f5f1e8',
+                            DEFAULT: '#d4c8b5',
+                            dark: '#a38f6f',
+                        },
+                        secondary: {
+                            light: '#e8e5dd',
+                            DEFAULT: '#8b8371',
+                            dark: '#5a5344',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Helvetica', 'Arial', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans Display', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* Modern scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f5f1e8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a38f6f;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8b8371;
+        }
+
+        /* Page transition */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #d4c8b5;
+            z-index: 9999;
+            transform: translateY(100%);
+            animation: pageEnter 1s ease forwards;
+        }
+
+        @keyframes pageEnter {
+            0% { transform: translateY(100%); }
+            80% { transform: translateY(0); }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        /* Section animations */
+        .section-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .section-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.ctfassets.net/s4ybdu2ld1ox/4iGrU7mReGVZB2WV4x0YDF/6d7704ac48417104740061e858447afd/mordern-home.jpeg?w=1382&h=922&fl=progressive&q=70&fm=jpg&bg=transparent');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.3s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .before-after {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);
+            will-change: transform;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .before-after:hover {
+            transform: perspective(1000px) rotateX(2deg) rotateY(2deg) scale3d(1.03, 1.03, 1.03);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .before-after img {
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .before-after:hover .before {
+            opacity: 0;
+            transform: scale(1.05);
+        }
+        
+        .testimonial-card {
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212,200,181,0.1) 0%, rgba(163,143,111,0.1) 100%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: perspective(1000px) rotateX(2deg) rotateY(2deg) scale3d(1.03, 1.03, 1.03);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .testimonial-card:hover::before {
+            opacity: 1;
+        }
+        
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #a38f6f;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateX(100%);
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body class="bg-primary-light text-secondary-dark">
+    <!-- Header -->
+    <header class="fixed w-full bg-white shadow-md z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="mr-4">
+                        <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\RevCon.JPG" alt="REVCON Logo" class="h-12">
+                    </div>
+                    <h1 class="text-2xl font-bold text-secondary-dark">REVCON <span class="text-primary-dark">Constructions</span></h1>
+                </div>
+                
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-secondary-dark hover:text-primary-dark">Αρχική</a>
+                    <a href="#about" class="nav-link text-secondary-dark hover:text-primary-dark">Σχετικά με εμάς</a>
+                    <a href="#services" class="nav-link text-secondary-dark hover:text-primary-dark">Υπηρεσίες</a>
+                    <a href="#gallery" class="nav-link text-secondary-dark hover:text-primary-dark">Gallery</a>
+                    <a href="#testimonials" class="nav-link text-secondary-dark hover:text-primary-dark">Μαρτυρίες</a>
+                    <a href="#contact" class="nav-link text-secondary-dark hover:text-primary-dark">Επικοινωνία</a>
+                </nav>
+                
+                <div class="hidden md:block">
+                    <a href="#contact" class="bg-primary-dark text-white px-6 py-3 rounded-md hover:bg-secondary-dark transition duration-300">Ζητήστε Προσφορά</a>
+                </div>
+                
+                <button class="md:hidden focus:outline-none">
+                    <i class="fas fa-bars text-2xl text-secondary-dark"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu hidden md:hidden fixed inset-0 bg-white z-40 pt-20 backdrop-blur-sm bg-opacity-95">
+        <div class="container mx-auto px-6 py-4">
+            <nav class="flex flex-col space-y-6">
+                <a href="#home" class="nav-link text-secondary-dark hover:text-primary-dark text-xl">Αρχική</a>
+                <a href="#about" class="nav-link text-secondary-dark hover:text-primary-dark text-xl">Σχετικά με εμάς</a>
+                <a href="#services" class="nav-link text-secondary-dark hover:text-primary-dark text-xl">Υπηρεσίες</a>
+                 <a href="#gallery" class="nav-link text-secondary-dark hover:text-primary-dark">Gallery</a>
+                <a href="#testimonials" class="nav-link text-secondary-dark hover:text-primary-dark text-xl">Μαρτυρίες</a>
+                <a href="#contact" class="nav-link text-secondary-dark hover:text-primary-dark text-xl">Επικοινωνία</a>
+                <a href="#contact" class="bg-primary-dark text-white px-6 py-3 rounded-md hover:bg-secondary-dark transition duration-300 text-center">Ζητήστε Προσφορά</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Page Transition -->
+    <div class="page-transition"></div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero flex items-center justify-center text-center text-white pt-20 section-animate">
+        <div class="container mx-auto px-6 hero-content">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">Επαγγελματικές Ανακαινίσεις & Κατασκευές</h1>
+            <p class="text-xl md:text-2xl mb-10 max-w-2xl mx-auto">Δημιουργούμε χώρους που εμπνέουν, με προσοχή στη λεπτομέρεια και αφοσίωση στην ποιότητα.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#contact" class="bg-primary-dark text-white px-8 py-4 rounded-md text-lg font-medium hover:bg-secondary-dark transition duration-300">Ζητήστε Προσφορά</a>
+                <a href="#gallery" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-md text-lg font-medium hover:bg-white hover:text-secondary-dark transition duration-300">   Gallery  </a>
+            </div>
+        </div>
+    </section>
+
+   <!-- About Section -->
+    <section id="about" class="py-20 bg-white relative">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-black bg-opacity-30" style="background-image: url('https://images.unsplash.com/photo-1600585152220-90363fe7e115?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'); background-size: cover; background-position: center;"></div>
+            <div class="absolute inset-0 bg-white bg-opacity-80"></div>
+        </div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-secondary-dark">Σχετικά με εμάς</h2>
+                <div class="w-20 h-1 bg-primary-dark mx-auto"></div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1606744837616-56c9a5c6a6eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Construction Team" class="rounded-lg shadow-xl">
+                </div>
+                
+                <div class="md:w-1/2">
+                    <h3 class="text-2xl font-bold mb-6 text-secondary-dark">Η Υπόσχεση μας</h3>
+                    <p class="text-lg mb-6">Η ανακαίνιση ενός σπιτιού πρέπει να αποτελεί μια ευχάριστη και δημιουργική εμπειρία για τον πελάτη, χωρίς περιττά κόστη ή απρόβλεπτες δυσκολίες που θα μπορούσαν να τη μετατρέψουν σε πηγή ταλαιπωρίας. Για τον λόγο αυτό, αναλαμβάνουμε εμείς όλο το βάρος της οργάνωσης και της υλοποίησης, διασφαλίζοντας το βέλτιστο χρονικό, οικονομικό και ποιοτικό αποτέλεσμα.</p>
+                    
+                    <div class="mb-8">
+                        <h4 class="text-xl font-semibold mb-4 text-primary-dark">Αξίες & Φιλοσοφία</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-primary-dark mt-1 mr-3"></i>
+                                <span>Αμεσότητα και διαφάνεια σε κάθε στάδιο του έργου</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-primary-dark mt-1 mr-3"></i>
+                                <span>Χρήση υλικών υψηλής ποιότητας και βιώσιμων λύσεων</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-primary-dark mt-1 mr-3"></i>
+                                <span>Προσοχή στη λεπτομέρεια και ακρίβεια στην εκτέλεση</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-primary-dark mt-1 mr-3"></i>
+                                <span>Συνεργασία με πελάτες για την υλοποίηση του οράματός τους</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <a href="#contact" class="inline-block bg-primary-dark text-white px-6 py-3 rounded-md hover:bg-secondary-dark transition duration-300">Επικοινωνήστε μαζί μας</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-primary-light">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-secondary-dark">Υπηρεσίες μας</h2>
+                <div class="w-20 h-1 bg-primary-dark mx-auto"></div>
+                <p class="text-lg mt-6 max-w-2xl mx-auto">Προσφέρουμε ολοκληρωμένες λύσεις για κάθε ανάγκη σας, από μικρές ανακαινίσεις έως μεγάλες κατασκευές.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-auto max-w-6xl">
+                <!-- Service 1 -->
+                <div class="service-card bg-white p-8 rounded-lg shadow-md transition duration-300">
+                    <div class="text-primary-dark text-4xl mb-6">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-secondary-dark">Ολοκληρωμένες Ανακαινίσεις</h3>
+                    <p class="mb-6">Πλήρης ανακαίνιση κατοικιών και επαγγελματικών χώρων, από το σχεδιασμό έως την τελική παράδοση.</p>
+                    <a href="#contact" class="text-primary-dark font-medium hover:text-secondary-dark transition duration-300">Μάθετε περισσότερα →</a>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="service-card bg-white p-8 rounded-lg shadow-md transition duration-300">
+                    <div class="text-primary-dark text-4xl mb-6">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-secondary-dark">Νέες Κατασκευές</h3>
+                    <p class="mb-6">Κατασκευή νέων κτιρίων με σύγχρονες τεχνικές και υλικά, με γνώμονα την ενεργειακή απόδοση.</p>
+                    <a href="#contact" class="text-primary-dark font-medium hover:text-secondary-dark transition duration-300">Μάθετε περισσότερα →</a>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="service-card bg-white p-8 rounded-lg shadow-md transition duration-300">
+                    <div class="text-primary-dark text-4xl mb-6">
+                        <i class="fas fa-trowel"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-secondary-dark">Στεγανοποιήσεις & Αποκαταστάσεις</h3>
+                    <p class="mb-6">Λύσεις για προβλήματα υγρασίας, ρωγμές και ζημιές, με εγγυημένα αποτελέσματα.</p>
+                    <a href="#contact" class="text-primary-dark font-medium hover:text-secondary-dark transition duration-300">Μάθετε περισσότερα →</a>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="service-card bg-white p-8 rounded-lg shadow-md transition duration-300">
+                    <div class="text-primary-dark text-4xl mb-6">
+                        <i class="fas fa-bath"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-secondary-dark">Ανακαινίσεις Μπάνιων</h3>
+                    <p class="mb-6">Σύγχρονα και λειτουργικά μπάνια, με προσοχή στην υγιεινή και την άνεση.</p>
+                    <a href="#contact" class="text-primary-dark font-medium hover:text-secondary-dark transition duration-300">Μάθετε περισσότερα →</a>
+                </div>
+                
+                <!-- Service 5 -->
+                <div class="service-card bg-white p-8 rounded-lg shadow-md transition duration-300">
+                    <div class="text-primary-dark text-4xl mb-6">
+                        <i class="fas fa-warehouse"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-secondary-dark">Εσωτερικός Εξωραϊσμός</h3>
+                    <p class="mb-6">Σύγχρονος σχεδιασμός εσωτερικών χώρων με προσοχή στην λειτουργικότητα και την αισθητική.</p>
+                    <a href="#contact" class="text-primary-dark font-medium hover:text-secondary-dark transition duration-300">Μάθετε περισσότερα →</a>
+                </div>
+                
+                <!-- Service 6 -->
+                <div class="service-card bg-white p-8 rounded-lg shadow-md transition duration-300">
+                    <div class="text-primary-dark text-4xl mb-6">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-secondary-dark">Εξωτερικοί Χώροι</h3>
+                    <p class="mb-6">Σχεδιασμός και κατασκευή κήπων, πεζοδρομήσεων και εξωτερικών χώρων αναψυχής.</p>
+                    <a href="#contact" class="text-primary-dark font-medium hover:text-secondary-dark transition duration-300">Μάθετε περισσότερα →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-secondary-dark">Gallery</h2>
+                <div class="w-20 h-1 bg-primary-dark mx-auto"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                 <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\image3.jpeg" alt="Project 1" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\image21.jpeg" alt="Project 2" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\image29.jpeg" alt="Project 3" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\image11.jpeg" alt="Project 4" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\image2.jpeg" alt="Project 5" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\image15.jpeg" alt="Project 6" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\image29.jpeg" alt="Project 7" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\image31.jpeg" alt="Project 8" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\IMG_2317.jpeg" alt="Project 9" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\IMG_2396.jpeg" alt="Project 10" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\IMG_2397.jpeg" alt="Project 11" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\IMG_4395 (1).jpeg" alt="Project 12" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\IMG_4470.jpeg" alt="Project 13" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\unnamed.jpg" alt="Project 14" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\IMG_7990.JPG" alt="Project 15" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="C:\Users\Ferentinos Ioannis\OneDrive\Υπολογιστής\REVCON\Images\IMG_7988.JPG" alt="Project 16" class="w-full h-64 object-cover hover:scale-110 transition duration-500">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 bg-primary-light parallax w-full" style="background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2053&q=80')">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-secondary-dark">Μαρτυρίες Πελατών</h2>
+                <div class="w-20 h-1 bg-primary-dark mx-auto"></div>
+                <p class="text-lg mt-6 max-w-2xl mx-auto">Αυτά λένε οι πελάτες μας για την ποιότητα της δουλειάς μας και την εμπειρία συνεργασίας.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card bg-white p-8 rounded-lg shadow-md">
+                    <div class="flex items-center mb-6">
+                        <div class="text-primary-dark text-3xl mr-4">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <div class="text-yellow-400 text-xl">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="mb-6 italic">"Η REVCON ανακαίνισε το διαμέρισμά μας και το αποτέλεσμα ξεπέρασε κάθε προσδοκία. Επαγγελματισμός, ακρίβεια και σεβασμός στους χρόνους. Θα τους συνιστούσα χωρίς δεύτερη σκέψη."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Maria K." class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Μαρία Κ.</h4>
+                            <p class="text-sm text-gray-600">Κηφισιά</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card bg-white p-8 rounded-lg shadow-md">
+                    <div class="flex items-center mb-6">
+                        <div class="text-primary-dark text-3xl mr-4">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <div class="text-yellow-400 text-xl">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="mb-6 italic">"Από την πρώτη στιγμή έδειξαν μεγάλη επαγγελματικότητα και προσοχή στις λεπτομέρειες. Η ανακαίνιση του σπιτιού μας ολοκληρώθηκε εντός προθεσμίας και με άψογο αποτέλεσμα. Ευχαριστούμε!"</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Nikos P." class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Νίκος Π.</h4>
+                            <p class="text-sm text-gray-600">Γλυφάδα</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card bg-white p-8 rounded-lg shadow-md">
+                    <div class="flex items-center mb-6">
+                        <div class="text-primary-dark text-3xl mr-4">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <div class="text-yellow-400 text-xl">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="mb-6 italic">"Συνεργαστήκαμε με την REVCON για την κατασκευή της νέας μας επιχείρησης. Η επικοινωνία ήταν άψογη, οι προτάσεις τους καινοτόμες και το τελικό αποτέλεσμα τέλειο. Σίγουρα θα τους ξαναεπιλέξω."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Eleni M." class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Ελένη Μ.</h4>
+                            <p class="text-sm text-gray-600">Μαρούσι</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-primary-dark text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Έτοιμοι να ξεκινήσετε το επόμενο σας έργο;</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Επικοινωνήστε μαζί μας για μια δωρεάν εκτίμηση και ας δημιουργήσουμε μαζί τον χώρο των ονείρων σας.</p>
+            <a href="#contact" class="inline-block bg-white text-primary-dark px-8 py-4 rounded-md text-lg font-medium hover:bg-secondary-light hover:text-white transition duration-300">Ζητήστε Προσφορά</a>
+        </div>
+    </section>
+
+    <!-- Contact<!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-secondary-dark">Επικοινωνία</h2>
+                <div class="w-20 h-1 bg-primary-dark mx-auto"></div>
+                <p class="text-lg mt-6 max-w-2xl mx-auto">Επικοινωνήστε μαζί μας για οποιαδήποτε ερώτηση ή για να ζητήσετε μια δωρεάν εκτίμηση για το έργο σας.</p>
+            </div>
+            
+            <div class="max-w-2xl mx-auto">
+                    <div class="bg-primary-light p-8 rounded-lg shadow-md h-full">
+                        <h3 class="text-2xl font-bold mb-6 text-secondary-dark">Στοιχεία Επικοινωνίας</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="text-primary-dark text-xl mr-4 mt-1">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1">Διεύθυνση</h4>
+                                    <p>Ιδομενέως 32, Ίλιον<br>13122, Αθήνα</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="text-primary-dark text-xl mr-4 mt-1">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1">Τηλέφωνο</h4>
+                                    <p>210 123 4567<br>Κινητό: 69 1234 5678</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="text-primary-dark text-xl mr-4 mt-1">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1">Email</h4>
+                                    <p>info@revcon.gr<br>projects@revcon.gr</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="text-primary-dark text-xl mr-4 mt-1">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1">Ωράριο Λειτουργίας</h4>
+                                    <p>Δευτέρα - Παρασκευή: 08:00 - 18:00<br>Σάββατο: 09:00 - 14:00<br>Κυριακή: Κλειστά</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h4 class="font-bold mb-4">Ακολουθήστε μας</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="text-primary-dark text-2xl hover:text-secondary-dark transition duration-300"><i class="fab fa-facebook"></i></a>
+                                <a href="#" class="text-primary-dark text-2xl hover:text-secondary-dark transition duration-300"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="text-primary-dark text-2xl hover:text-secondary-dark transition duration-300"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="text-primary-dark text-2xl hover:text-secondary-dark transition duration-300"><i class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <div class="mt-16 rounded-lg overflow-hidden">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3141.780018373283!2d23.69231031532646!3d38.03350897970895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14a1bd1e7c3a0a9d%3A0x9e8a7a7a7a7a7a7a!2sIdomeneos%2032%2C%20Ilion%20132%2C%20Greece!5e0!3m2!1sen!2sus!4v1623256789012!5m2!1sen!2sus" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-secondary-dark text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-6">REVCON Constructions</h3>
+                    <p class="mb-4">Επαγγελματικές υπηρεσίες ανακαίνισης και κατασκευής με πάνω από 15 χρόνια εμπειρίας στην αγορά.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-white hover:text-primary-dark transition duration-300"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white hover:text-primary-dark transition duration-300"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white hover:text-primary-dark transition duration-300"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-white hover:text-primary-dark transition duration-300"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Γρήγοροι Σύνδεσμοι</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="hover:text-primary-dark transition duration-300">Αρχική</a></li>
+                        <li><a href="#about" class="hover:text-primary-dark transition duration-300">Σχετικά με εμάς</a></li>
+                        <li><a href="#services" class="hover:text-primary-dark transition duration-300">Υπηρεσίες</a></li>
+                        <li><a href="#portfolio" class="hover:text-primary-dark transition duration-300">Έργα μας</a></li>
+                        <li><a href="#contact" class="hover:text-primary-dark transition duration-300">Επικοινωνία</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Υπηρεσίες</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="hover:text-primary-dark transition duration-300">Ολοκληρωμένες Ανακαινίσεις</a></li>
+                        <li><a href="#" class="hover:text-primary-dark transition duration-300">Νέες Κατασκευές</a></li>
+                        <li><a href="#" class="hover:text-primary-dark transition duration-300">Στεγανοποιήσεις</a></li>
+                        <li><a href="#" class="hover:text-primary-dark transition duration-300">Ανακαινίσεις Μπάνιων</a></li>
+                        <li><a href="#" class="hover:text-primary-dark transition duration-300">Εξωτερικοί Χώροι</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Επικοινωνία</h3>
+                    <address class="not-italic">
+                        <p class="mb-3"><i class="fas fa-map-marker-alt mr-2 text-primary-dark"></i> Λεωφ. Κηφισίας 123, Μαρούσι</p>
+                        <p class="mb-3"><i class="fas fa-phone-alt mr-2 text-primary-dark"></i> 210 123 4567</p>
+                        <p class="mb-3"><i class="fas fa-envelope mr-2 text-primary-dark"></i> info@revcon.gr</p>
+                        <p><i class="fas fa-clock mr-2 text-primary-dark"></i> Δευ-Παρ: 08:00 - 18:00</p>
+                    </address>
+                </div>
+            </div>
+             
+                <p>&copy; 2023 REVCON Constructions.  Όλα τα δικαιώματα κατοχυρωμένα.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Remove page transition after animation completes
+        setTimeout(() => {
+            document.querySelector('.page-transition').remove();
+        }, 1000);
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('button.md\\:hidden');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('hidden') ? 'auto' : 'hidden';
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            });
+        });
+        
+        // Smooth scroll for anchor links with offset
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for section animations
+        const sections = document.querySelectorAll('.section-animate');
+        
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('section-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Parallax effect for hero section
+        const hero = document.querySelector('.hero');
+        if (hero) {
+            window.addEventListener('scroll', function() {
+                const scrollPosition = window.pageYOffset;
+                hero.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
+            });
+        }
+        
+        // Simple testimonial carousel functionality
+        let currentTestimonial = 0;
+        const testimonials = document.querySelectorAll('.testimonial-card');
+        
+        function showTestimonial(index) {
+            testimonials.forEach((testimonial, i) => {
+                testimonial.style.display = i === index ? 'block' : 'none';
+            });
+        }
+        
+        // For a more complete carousel, you would add next/prev buttons and auto-rotation
+        // This is a basic implementation
+        setInterval(() => {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            showTestimonial(currentTestimonial);
+        }, 5000);
+        
+        // Initially show the first testimonial
+        showTestimonial(0);
+    </script>
+</body>
+</html>
